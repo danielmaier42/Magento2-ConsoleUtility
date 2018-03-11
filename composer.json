@@ -1,5 +1,6 @@
 {
   "name": "danielmaier/consoleutility",
+  "description": "Easy to use base-package made for developing CLI-Applications in Magento 2",
   "type": "magento2-module",
   "version": "1.0.0",
   "autoload": {
