@@ -69,12 +69,6 @@ abstract class UtilityCommand extends Command
         $this->objectManager = $objectManager;
         $this->state = $state;
         $this->timeMessureHelper = $timeMessureHelper;
-
-        try {
-            $this->state->setAreaCode('adminhtml');
-        } catch (\Exception $exception) {
-
-        }
     }
 
     /**
@@ -190,6 +184,12 @@ abstract class UtilityCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        try {
+            $this->state->setAreaCode('adminhtml');
+        } catch (\Exception $exception) {
+            // ... ignore
+        }
+
         try {
             $this->executeCommand();
 
