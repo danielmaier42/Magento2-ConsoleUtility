@@ -3,7 +3,7 @@
   "description": "Easy to use base-package made for developing CLI-Applications in Magento 2",
   "license": "GPL-3.0-or-later",
   "type": "magento2-module",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "require": {
     "magento/framework": "*"
   },
