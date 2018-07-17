@@ -101,8 +101,21 @@ abstract class UtilityCommand extends Command
         $this->configureCommand();
 
         foreach ($this->interactiveQuestsion as $argumentName => $question) {
-            $this->addOption($argumentName, null, InputOption::VALUE_OPTIONAL, $question->getQuestion());
+            $this->addOption($this->escapeArgument($argumentName), null, InputOption::VALUE_OPTIONAL, $question->getQuestion());
         }
+    }
+
+    /**
+     * Escapes the given Argument
+     *
+     * @param string $argument
+     * @return string
+     */
+    private function escapeArgument($argument)
+    {
+        return trim(
+            str_replace('_', '-', $argument)
+        );
     }
 
     /**
@@ -111,11 +124,13 @@ abstract class UtilityCommand extends Command
      */
     protected function addInteractiveQuestion($argumentName, $question)
     {
+        $questionText = trim($question->getQuestion());
+        $questionDefault = $question->getDefault();
+
         if ($question->getDefault()) {
-            $question = new Question(
-                trim($question->getQuestion()) . ' [' . $question->getDefault() . '] ',
-                $question->getDefault()
-            );
+            $question = new Question($questionText . ' [' . $questionDefault . ']: ', $questionDefault);
+        } else {
+            $question = new Question($questionText . ': ');
         }
 
         $this->interactiveQuestsion[$argumentName] = $question;
@@ -132,7 +147,9 @@ abstract class UtilityCommand extends Command
 
         if (count($this->interactiveQuestsion) > 0) {
             foreach ($this->interactiveQuestsion as $argumentName => $question) {
-                $givenValue = $this->input->getOption($argumentName);
+                $givenValue = $this->input->getOption(
+                    $this->escapeArgument($argumentName)
+                );
 
                 if (!empty($givenValue)) {
                     unset($this->interactiveQuestsion[$argumentName]);
