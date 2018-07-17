@@ -74,11 +74,16 @@ class Output implements OutputInterface
      *
      * @api
      */
-    public function write($messages, $newline = false, $type = OutputInterface::OUTPUT_NORMAL)
+    public function write($message, $newline = false, $type = OutputInterface::OUTPUT_NORMAL)
     {
-        $this->fileWrite($messages);
+        if (is_array($message) || is_object($message))
+        {
+            $message = var_export($message, true);
+        }
 
-        $this->parentOutput->write($messages, $newline, $type);
+        $this->fileWrite($message);
+
+        $this->parentOutput->write($message, $newline, $type);
     }
 
     /**
@@ -91,11 +96,16 @@ class Output implements OutputInterface
      *
      * @api
      */
-    public function writeln($messages, $type = OutputInterface::OUTPUT_NORMAL)
+    public function writeln($message, $type = OutputInterface::OUTPUT_NORMAL)
     {
-        $this->fileWriteLine($messages);
+        if (is_array($message) || is_object($message))
+        {
+            $message = var_export($message, true);
+        }
 
-        $this->parentOutput->writeln($messages, $type);
+        $this->fileWriteLine($message);
+
+        $this->parentOutput->writeln($message, $type);
     }
 
     /**
