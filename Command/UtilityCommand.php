@@ -49,7 +49,7 @@ abstract class UtilityCommand extends Command
     /**
      * @var TimeMessureHelper
      */
-    private $timeMessureHelper;
+    protected $timeMessureHelper;
 
     /**
      * AbstractCommand constructor.
@@ -220,10 +220,11 @@ abstract class UtilityCommand extends Command
     /**
      * @param mixed|array|ArrayInterface|Collection $walkable
      * @param Callable $callback
+     * @param int $count (Default null)
      *
      * @throws \Exception
      */
-    protected function walkProgress($walkable, $callback)
+    protected function walkProgress($walkable, $callback, $count = null)
     {
         $isMultiPageCollection = ($walkable instanceof Collection && $walkable->getLastPageNumber() > 1);
 
@@ -234,7 +235,7 @@ abstract class UtilityCommand extends Command
             );
         }
 
-        $walkableCount = count($walkable);
+        $walkableCount = $count ?: count($walkable);
         $walkableIndex = 0;
 
         $counterLength = strlen((string)$walkableCount);
