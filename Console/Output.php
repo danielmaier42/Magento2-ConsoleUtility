@@ -179,6 +179,46 @@ class Output implements OutputInterface
     {
         return $this->parentOutput->getFormatter();
     }
+
+    /**
+     * Returns whether verbosity is quiet (-q).
+     *
+     * @return bool true if verbosity is set to VERBOSITY_QUIET, false otherwise
+     */
+    public function isQuiet()
+    {
+        return $this->parentOutput->isQuiet();
+    }
+
+    /**
+     * Returns whether verbosity is verbose (-v).
+     *
+     * @return bool true if verbosity is set to VERBOSITY_VERBOSE, false otherwise
+     */
+    public function isVerbose()
+    {
+        return $this->parentOutput->isVerbose();
+    }
+
+    /**
+     * Returns whether verbosity is very verbose (-vv).
+     *
+     * @return bool true if verbosity is set to VERBOSITY_VERY_VERBOSE, false otherwise
+     */
+    public function isVeryVerbose()
+    {
+        return $this->parentOutput->isVeryVerbose();
+    }
+
+    /**
+     * Returns whether verbosity is debug (-vvv).
+     *
+     * @return bool true if verbosity is set to VERBOSITY_DEBUG, false otherwise
+     */
+    public function isDebug()
+    {
+        return $this->parentOutput->isDebug();
+    }
     //endregion
 
     //region Easy Logging
