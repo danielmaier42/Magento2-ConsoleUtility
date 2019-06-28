@@ -2,6 +2,7 @@
 
 namespace DanielMaier\ConsoleUtility\Console;
 
+use Magento\Framework\Exception\AbstractAggregateException;
 use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Log\Logger;
@@ -224,8 +225,19 @@ class Output implements OutputInterface
     //region Easy Logging
     public function logException(\Exception $exception)
     {
-        $this->logError('Error: ' . get_class($exception) . ' - ' . $exception->getMessage() . ' (Code: ' . $exception->getCode() . ')');
-        $this->logError('File: ' . $exception->getFile() . ' / Line: ' . $exception->getLine());
+        $this->writeln('<error>' . get_class($exception) . ' - ' . $exception->getMessage() . ' (Code: ' . $exception->getCode() . ')</error>');
+        $this->writeln('<error>File: ' . $exception->getFile() . ' / Line: ' . $exception->getLine() . '</error>');
+
+        if ($exception instanceof AbstractAggregateException) {
+            $this->writeln('');
+            $this->writeln('The following errors occured:');
+
+            foreach ($exception->getErrors() as $error) {
+                $this->writeln('- ' . $error->getLogMessage());
+            }
+
+            $this->writeln('');
+        }
     }
 
     public function logSuccess($message)
